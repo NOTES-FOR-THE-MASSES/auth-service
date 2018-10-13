@@ -23,6 +23,7 @@ app.use(morgan('combined'));
 app.use('/auth', authRoutes);
 
 app.use((err, req, res, next) => {
+  console.log('-----------------------------Error handling called-----------------------------');
   console.error(err); //eslint-disable-line 
 
   res.status(500).send(err);

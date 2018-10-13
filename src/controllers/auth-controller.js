@@ -7,13 +7,15 @@ module.exports = {
     const email = user.email;
     const password = user.password;
 
-    let newUser = new User(user); //eslint-disable-line 
-    console.log(password);
-    newUser.setPassword(password);
-    console.log(newUser);
+    const newUser = new User(user);
+
+    newUser.setHashedPassword(password);
+
     newUser.save().then(() => {
       res.status(201).send(newUser);
-    }).catch(next);
+    }).catch((err) => {
+      res.status(400).send(err);
+    });
   },
   getAllUsers: (req, res, next) => {
     User.find({}).then((users) => {
