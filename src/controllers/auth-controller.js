@@ -4,8 +4,15 @@ module.exports = {
   register: (req, res, next) => {
     const user = req.body;
 
-    User.create(user).then(() => {
-      res.sendStatus(201);
+    const email = user.email;
+    const password = user.password;
+
+    let newUser = new User(user); //eslint-disable-line 
+    console.log(password);
+    newUser.setPassword(password);
+    console.log(newUser);
+    newUser.save().then(() => {
+      res.status(201).send(newUser);
     }).catch(next);
   },
   getAllUsers: (req, res, next) => {

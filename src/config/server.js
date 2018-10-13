@@ -25,7 +25,7 @@ app.use('/auth', authRoutes);
 app.use((err, req, res, next) => {
   console.error(err); //eslint-disable-line 
 
-  res.status(500).send('Something broke!');
+  res.status(500).send(err);
   next();
 });
 
