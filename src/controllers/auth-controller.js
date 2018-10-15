@@ -4,18 +4,18 @@ module.exports = {
   register: (req, res, next) => {
     const user = req.body;
 
-    const email = user.email;
-    const password = user.password;
-
     const newUser = new User(user);
 
-    newUser.setHashedPassword(password);
-
-    newUser.save().then(() => {
-      res.status(201).send(newUser);
-    }).catch((err) => {
-      res.status(400).send(err);
-    });
+    newUser.validate()
+      .then(() => {
+        // Update the password
+        newUser.hashPassword();
+        // Save the user
+        return newUser.save({ validateBeforeSave: false });
+      }).then((finalUser) => {
+        res.status(201).send(finalUser); // To do: remove the response with that contains the user object
+      })
+      .catch(next);
   },
   getAllUsers: (req, res, next) => {
     User.find({}).then((users) => {

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
 
-mongoose.connect(process.env.DB_HOST, { useNewUrlParser: true });
+mongoose.connect(process.env.DB_HOST, { useNewUrlParser: true, useCreateIndex: true });
 
 const db = mongoose.connection;
 
