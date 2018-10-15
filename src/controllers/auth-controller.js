@@ -20,6 +20,6 @@ module.exports = {
   getAllUsers: (req, res, next) => {
     User.find({}).then((users) => {
       res.status(200).json(users);
-    }).catch(next);
+    }).catch(next('hihi-hahu'));
   },
 };

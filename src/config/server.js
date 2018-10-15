@@ -2,10 +2,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const morgan = require('morgan');
-require('../config/database');
-
-// Routes
+const errorHandler = require('../utils/error-handler');
 const authRoutes = require('../routes/auth-router');
+
+require('../config/database');
 
 const app = express();
 
@@ -16,19 +16,13 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// Log data
+// Log requests
 app.use(morgan('combined'));
 
 // Setup routes
 app.use('/auth', authRoutes);
 
-app.use((err, req, res, next) => {
-  console.log('-----------------------------Error handling called-----------------------------');
-  console.error(err); //eslint-disable-line 
-
-  res.status(500).send(err);
-  next();
-});
-
+// Handle handling
+app.use(errorHandler.handleError);
 
 module.exports = app;
