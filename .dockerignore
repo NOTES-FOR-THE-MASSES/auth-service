@@ -1,0 +1,7 @@
+README.md
+LICENSE
+.gitignore
+node_modules
+.eslintrc.json
+npm-debug.log
+Dockerfile

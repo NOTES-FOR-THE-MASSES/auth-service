@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const jwt = require('../utils/jwt');
 
 module.exports = {
   register: (req, res, next) => {
@@ -21,5 +22,13 @@ module.exports = {
     User.find({}).then((users) => {
       res.status(200).json(users);
     }).catch(next('hihi-hahu'));
+  },
+  login: (req, res, next) => {
+    // const credentials = req.body;
+
+    jwt.sign('id').then((token) => {
+      console.log(token);
+      res.status(200);
+    }).catch(next);
   },
 };
