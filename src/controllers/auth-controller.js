@@ -21,14 +21,22 @@ module.exports = {
   getAllUsers: (req, res, next) => {
     User.find({}).then((users) => {
       res.status(200).json(users);
-    }).catch(next('hihi-hahu'));
+    }).catch(next);
   },
   login: (req, res, next) => {
-    // const credentials = req.body;
-
-    jwt.sign('id').then((token) => {
-      console.log(token);
-      res.status(200);
+    const credentials = req.body;
+    User.findOne({ email: credentials.email }).then((user) => {
+      if (!user) {
+        next('Email not found.');
+      }
+      // Compare hashes
+      if (!user.verifyPassword(credentials.password)) {
+        next('Password is incorrect.');
+      }
+      // Pass user id as a part of the generation of the token
+      return jwt.sign(user._id.toString());
+    }).then((token) => {
+      res.status(200).send({ token });
     }).catch(next);
   },
 };
